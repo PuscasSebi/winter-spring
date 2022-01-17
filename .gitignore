@@ -1,0 +1,7 @@
+/build/
+/authorization-server/build/
+/resource-server/build/
+/resource-server/build/
+
+/.gradle/
+/.idea/
