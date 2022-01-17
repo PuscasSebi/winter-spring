@@ -22,7 +22,7 @@ public class SecurityConfiguration {
                         authorizeRequests.anyRequest().authenticated()
                 )
                 .oauth2Login(oauth2Login ->
-                        oauth2Login.loginPage("/oauth2/authorization/articles-client-oidc"))
+                        oauth2Login.loginPage("/oauth2/authorization/messaging-client-oidc"))
                 .oauth2Client(withDefaults());
         return http.build();
     }

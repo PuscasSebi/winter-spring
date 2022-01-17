@@ -63,9 +63,16 @@ public class CassandraSqlFactory extends AbstractCassandraConfiguration
         session.setPort(9042);
         session.setLocalDatacenter("datacenter1");
         session.setKeyspaceCreations(getKeyspaceCreations());
-     /*   session.setKeyspaceStartupScripts(new ArrayList<String>(){{
-
-        }});*/
+           session.setKeyspaceStartupScripts(new ArrayList<String>(){{
+        add("CREATE TABLE IF NOT EXISTS mykeyspace.users (email text, grantedauthority list<text>, id uuid, password text, username text, PRIMARY KEY (id));");
+        add("CREATE TABLE IF NOT EXISTS mykeyspace.users_credentials (email text, authorities list<text>,  password text, user_id uuid, is_account_non_expired boolean, is_account_non_locked boolean," +
+                "is_credentials_non_expired boolean," +
+                "is_enabled boolean," +
+                " PRIMARY KEY (email));");
+        add("INSERT INTO \"mykeyspace\".\"users_credentials\" (\"email\", \"authorities\", \"password\", user_id , is_account_non_expired,is_account_non_locked,is_credentials_non_expired,is_enabled) " +
+                "VALUES ('puscas@puscas.com', ['read','write'], '$2a$10$Udcy3RS6dEapZ5GuNillsOSPrz.LW/DRSyFvAPygI0NH7EJVCO6G2', bbc3d2ee-77a9-11ec-90d6-0242ac120003, true, true, true, true);");
+        add("INSERT INTO \"mykeyspace\".\"users\" (\"id\", \"email\", \"grantedauthority\", \"password\", \"username\") VALUES (bbc3d2ee-77a9-11ec-90d6-0242ac120003, 'puscas@puscas.com', ['read','write'], '$2a$10$Udcy3RS6dEapZ5GuNillsOSPrz.LW/DRSyFvAPygI0NH7EJVCO6G2', 'ebypuschi');");
+        }});
         session.setUsername("root");
         session.setPassword("root");
          return session;

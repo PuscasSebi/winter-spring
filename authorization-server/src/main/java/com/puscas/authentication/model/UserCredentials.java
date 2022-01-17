@@ -1,4 +1,5 @@
 package com.puscas.authentication.model;
+import org.springframework.data.cassandra.core.mapping.Column;
 import org.springframework.data.cassandra.core.mapping.PrimaryKey;
 import org.springframework.data.cassandra.core.mapping.Table;
 import org.springframework.security.core.GrantedAuthority;
@@ -15,8 +16,17 @@ public class UserCredentials implements UserDetails {
     @PrimaryKey
     private String email;
     private String password;
+    @Column("user_id")
     private UUID userId;
     private List<String> authorities;
+    @Column("is_account_non_expired")
+    private boolean isAccountNonExpired;
+    @Column("is_account_non_locked")
+    private boolean isAccountNonLocked;
+    @Column("is_credentials_non_expired")
+    private boolean isCredentialsNonExpired;
+    @Column("is_enabled")
+    private boolean isEnabled;
     /**
      * Returns the authorities granted to the user. Cannot return <code>null</code>.
      *
@@ -57,7 +67,7 @@ public class UserCredentials implements UserDetails {
      */
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return isAccountNonExpired;
     }
 
     /**
@@ -68,7 +78,7 @@ public class UserCredentials implements UserDetails {
      */
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return isAccountNonLocked;
     }
 
     /**
@@ -80,7 +90,7 @@ public class UserCredentials implements UserDetails {
      */
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return isCredentialsNonExpired;
     }
 
     /**
@@ -91,6 +101,6 @@ public class UserCredentials implements UserDetails {
      */
     @Override
     public boolean isEnabled() {
-        return false;
+        return isEnabled;
     }
 }

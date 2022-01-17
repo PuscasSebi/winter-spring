@@ -3,13 +3,3 @@ server:
   servlet:
     context-path: /auth-api
 
-spring:
-  data:
-    cassandra:
-      keyspace-name: mykeystape
-      contact-points: 172.10.10.2
-      port: 9042
-      username: root
-      password: root
-      local-datacenter: DC1
-      schema-action: CREATE_IF_NOT_EXISTS

@@ -17,7 +17,7 @@ public class ArticlesController {
 
     @GetMapping(value = "/articles")
     public String[] getArticles(
-      @RegisteredOAuth2AuthorizedClient("articles-client-authorization-code") OAuth2AuthorizedClient authorizedClient
+      @RegisteredOAuth2AuthorizedClient("messaging-client-authorization-code") OAuth2AuthorizedClient authorizedClient
     ) {
         return this.webClient
           .get()

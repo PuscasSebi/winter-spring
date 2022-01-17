@@ -13,6 +13,7 @@ public class User {
     private String password;
     private String email;
     private List<String> grantedAuthority;
+
     public UUID getId() {
         return id;
     }
