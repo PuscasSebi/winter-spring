@@ -31,14 +31,15 @@ public class AuthorizationServerConfig {
     @Bean
     public RegisteredClientRepository registeredClientRepository() {
         RegisteredClient registeredClient = RegisteredClient.withId(UUID.randomUUID().toString())
-                .clientId("messaging-client-authorization-code")
+                .clientId("messaging-client-oidc")
                 .clientSecret("$2a$10$01mjoOFScAIQZ0K6vAukteD2a1IpFJ/BiHBRO.tzuzfE7ZWt5MPom") //secret
+               // .clientSecret("secret")
                 .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
-                .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
+               .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
                 .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
                 .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
-                .redirectUri("http://127.0.0.1:8080/login/oauth2/code/messaging-client-authorization-code")
-                .redirectUri("http://127.0.0.1:8080/authorized")
+                .authorizationGrantType(AuthorizationGrantType.PASSWORD)
+                .redirectUri("http://127.0.0.1:8080/login/oauth2/code/messaging-client-oidc")
                 .scope(OidcScopes.OPENID)
                 .scope("read")
                 .clientSettings(ClientSettings.builder().requireAuthorizationConsent(true).build())
@@ -59,7 +60,7 @@ public class AuthorizationServerConfig {
     @Bean
     public ProviderSettings providerSettings() {
         return ProviderSettings.builder()
-                .issuer("http://localhost:9000/auth-api")
+                .issuer("http://localhost:9000")
                 .build();
     }
 

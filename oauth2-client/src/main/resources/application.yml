@@ -38,4 +38,4 @@ spring:
             client-name: messaging-client-client-credentials
         provider:
           spring:
-            issuer-uri: http://localhost:9000/auth-api
+            issuer-uri: http://localhost:9000
