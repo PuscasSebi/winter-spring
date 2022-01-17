@@ -7,8 +7,11 @@ logging:
     org.springframework.web: INFO
     org.springframework.security: INFO
     org.springframework.security.oauth2: INFO
+#    org.springframework.boot.autoconfigure: DEBUG
 
 spring:
+  thymeleaf:
+    cache: false
   security:
     oauth2:
       client:
@@ -27,15 +30,18 @@ spring:
             client-secret: secret
             authorization-grant-type: authorization_code
             redirect-uri: "http://127.0.0.1:8080/authorized"
-            scope: read,write
+            scope: message.read,message.write
             client-name: messaging-client-authorization-code
           messaging-client-client-credentials:
             provider: spring
             client-id: messaging-client
             client-secret: secret
             authorization-grant-type: client_credentials
-            scope: read,write
+            scope: message.read,message.write
             client-name: messaging-client-client-credentials
         provider:
           spring:
             issuer-uri: http://localhost:9000
+
+messages:
+  base-uri: http://127.0.0.1:8080/articles

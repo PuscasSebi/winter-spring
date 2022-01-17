@@ -1,0 +1,16 @@
+New Authorization Server
+
+need to implement the cassandra version of authorization service and authorization consent Service
+so the server can register shit and still be useful.
+
+haha.
+similar to spring-authorization-server stuff
+
+sample.config.AuthorizationServerConfig#authorizationService
+
+
+sample.config.AuthorizationServerConfig#authorizationConsentService
+
+after this you need to work more on the client and give use different ways to authorize using
+
+git/google/facebook and other stuff
