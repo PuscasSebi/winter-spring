@@ -2,4 +2,5 @@ rootProject.name = 'winter-boot-project'
 include 'authorization-server'
 include 'resource-server'
 include 'oauth2-client'
+include 'authorization-mysql'
 
