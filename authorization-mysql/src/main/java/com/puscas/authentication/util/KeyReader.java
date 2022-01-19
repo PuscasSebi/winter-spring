@@ -5,6 +5,7 @@ import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -42,7 +43,9 @@ public class KeyReader {
         String filePath = "src/main/resources/keystore.jks";
         // PrivateKey privateKey = KeyReader.getPrivateKey(filePath);
         // PublicKey publicKey = KeyReader.getPublicKey(filePath);
-
+        if(!new File(filePath).exists()){
+            filePath = "authorization-mysql/src/main/resources/keystore.jks";
+        }
         KeyStore keyStore = KeyStore.getInstance("PKCS12");
         keyStore.load(new FileInputStream(filePath), "password".toCharArray());
         RSAKey load = RSAKey.load(keyStore, "selfsigned", "password".toCharArray());
