@@ -24,8 +24,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@Configuration
-@EnableCassandraRepositories(basePackages = { "com.puscas.authentication.model" })
+//@Configuration
+//@EnableCassandraRepositories(basePackages = { "com.puscas.authentication.model" })
 public class CassandraSqlFactory extends AbstractCassandraConfiguration
 {
 
@@ -72,6 +72,8 @@ public class CassandraSqlFactory extends AbstractCassandraConfiguration
         add("INSERT INTO \"mykeyspace\".\"users_credentials\" (\"email\", \"authorities\", \"password\", user_id , is_account_non_expired,is_account_non_locked,is_credentials_non_expired,is_enabled) " +
                 "VALUES ('puscas@puscas.com', ['read','write'], '$2a$10$Udcy3RS6dEapZ5GuNillsOSPrz.LW/DRSyFvAPygI0NH7EJVCO6G2', bbc3d2ee-77a9-11ec-90d6-0242ac120003, true, true, true, true);");
         add("INSERT INTO \"mykeyspace\".\"users\" (\"id\", \"email\", \"grantedauthority\", \"password\", \"username\") VALUES (bbc3d2ee-77a9-11ec-90d6-0242ac120003, 'puscas@puscas.com', ['read','write'], '$2a$10$Udcy3RS6dEapZ5GuNillsOSPrz.LW/DRSyFvAPygI0NH7EJVCO6G2', 'ebypuschi');");
+
+        add("CREATE TABLE IS NOT EXISTS mykeyspace.oauth2_consent(registered_client text,principal_name text,authorities list<text>, PRIMARY KEY(registered_client, principal_name));");
         }});
         session.setUsername("root");
         session.setPassword("root");
