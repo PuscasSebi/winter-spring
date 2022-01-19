@@ -28,15 +28,15 @@ public class DefaultSecurityConfig  {
           .formLogin(withDefaults());
         return http.build();
     }
-    /*@Bean
+    @Bean
     PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(10);
     }
-*/
-    @Bean
+
+  /*  @Bean
     PasswordEncoder passwordEncoder(){
         return  NoOpPasswordEncoder.getInstance();
-    }
+    }*/
 
     @Bean
     public AuthenticationProvider authProvider() {
