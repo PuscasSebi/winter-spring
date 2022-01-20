@@ -1,5 +1,6 @@
 package com.puscas.authentication.service;
 
+import com.puscas.authentication.converter.Converter;
 import com.puscas.authentication.model.AuthUserDetail;
 import com.puscas.authentication.model.User;
 import com.puscas.authentication.repository.UserDetailRepository;
@@ -18,6 +19,9 @@ public class UserDetailServiceImpl implements UserDetailsService {
 	@Autowired
 	private UserDetailRepository userDetailRepository;
 
+	private AccountStatusUserDetailsChecker accountStatusUserDetailsChecker = new AccountStatusUserDetailsChecker();
+
+
 	@Override
 	public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException {
 
@@ -25,8 +29,8 @@ public class UserDetailServiceImpl implements UserDetailsService {
 
 		optionalUser.orElseThrow(() -> new UsernameNotFoundException("Username or password wrong"));
 
-		UserDetails userDetails = new AuthUserDetail(optionalUser.get());
-		new AccountStatusUserDetailsChecker().check(userDetails);
+		UserDetails userDetails = Converter.convertToUser(optionalUser.get());
+		accountStatusUserDetailsChecker.check(userDetails);
 		return userDetails;
 	}
 	

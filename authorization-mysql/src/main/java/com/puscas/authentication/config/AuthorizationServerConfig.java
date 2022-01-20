@@ -96,7 +96,9 @@ public class AuthorizationServerConfig {
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new CoreJackson2Module());
         mapper.registerModule(new OAuth2AuthorizationServerJackson2Module());
-        // ... your other configuration
+        ClassLoader loader = getClass().getClassLoader();
+        List<Module> modules = SecurityJackson2Modules.getModules(loader);
+        mapper.registerModules(modules);
         return mapper;
     }
     @Bean

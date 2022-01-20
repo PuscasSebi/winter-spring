@@ -21,7 +21,7 @@ repositories {
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-data-rest'
-
+    implementation group: 'org.springframework.security', name: 'spring-security-web', version: '5.6.1'
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-jdbc', version: '2.6.2'
 
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: '2.6.2'
