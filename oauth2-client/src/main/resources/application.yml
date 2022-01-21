@@ -16,6 +16,13 @@ spring:
     oauth2:
       client:
         registration:
+          google:
+            clientId: 246861652401-bhs3d3435gof3dfggfkl6qk1190qpj9q.apps.googleusercontent.com
+            clientSecret: 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
+            scope:
+              - email
+              - profile
+            redirect-uri: http://localhost:8080/login/oauth2/code/google
           messaging-client-oidc:
             provider: spring
             client-id: messaging-client

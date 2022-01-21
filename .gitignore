@@ -1,7 +1,8 @@
-/build/
+authorization-mysql/build/
 /authorization-server/build/
 /resource-server/build/
-/resource-server/build/
+/oauth2-client/build/
 
 /.gradle/
 /.idea/
+/authorization-mysql/build/resources/main/application.properties

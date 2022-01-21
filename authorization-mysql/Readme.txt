@@ -9,4 +9,3 @@ and we have some oauth2 tables from spring which we are going to rely upon on wh
 
 need to create database from schema.sql..
 then to insert some user from data.sql..
-

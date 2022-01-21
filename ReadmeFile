@@ -1,16 +1,9 @@
-New Authorization Server
+Applicaiton
 
-need to implement the cassandra version of authorization service and authorization consent Service
-so the server can register shit and still be useful.
+1. first we build up authorization-mysql server with tables, data and database connection
+2. second we build up the google authorization API by this video https://www.youtube.com/watch?v=xH6hAW3EqLk
+{"web":{"client_id":"246861652401-bhs3d3435gof3dfggfkl6qk1190qpj9q.apps.googleusercontent.com","project_id":"yourmanma","auth_uri":"https://accounts.google.com/o/oauth2/auth","token_uri":"https://oauth2.googleapis.com/token","auth_provider_x509_cert_url":"https://www.googleapis.com/oauth2/v1/certs","client_secret":"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","javascript_origins":["http://localhost:8080"]}}
 
-haha.
-similar to spring-authorization-server stuff
+246861652401-bhs3d3435gof3dfggfkl6qk1190qpj9q.apps.googleusercontent.com
 
-sample.config.AuthorizationServerConfig#authorizationService
-
-
-sample.config.AuthorizationServerConfig#authorizationConsentService
-
-after this you need to work more on the client and give use different ways to authorize using
-
-git/google/facebook and other stuff
+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
