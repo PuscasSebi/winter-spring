@@ -7,6 +7,7 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
@@ -23,10 +24,15 @@ public class DefaultSecurityConfig  {
 
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
-        http.authorizeRequests(authorizeRequests ->
-          authorizeRequests.anyRequest().authenticated()
-        )
-          .formLogin(withDefaults());
+        http
+                .authorizeRequests(authorizeRequests ->
+          authorizeRequests
+                  .antMatchers("/login*").permitAll()
+                  .anyRequest().authenticated()
+                )
+                .formLogin()
+                .loginPage("/login")
+                .permitAll();
         return http.build();
     }
     @Bean
@@ -46,6 +52,7 @@ public class DefaultSecurityConfig  {
         authProvider.setPasswordEncoder(passwordEncoder());
         return authProvider;
     }
+
 
 /*    @Bean
     public AccountStatusUserDetailsChecker accountStatusUserDetailsChecker(){
