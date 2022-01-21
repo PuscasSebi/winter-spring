@@ -29,4 +29,3 @@ spring:
     generate-ddl: true
   application:
     name: auth-server
-
