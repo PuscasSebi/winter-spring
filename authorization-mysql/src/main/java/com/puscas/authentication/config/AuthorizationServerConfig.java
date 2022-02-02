@@ -49,20 +49,21 @@ public class AuthorizationServerConfig {
                 .clientSecret(passwordEncoder.encode("secret")) //secret
                // .clientSecret("{noop}secret")
                 .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
+                .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_POST)
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
                 .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
                 .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
                 .redirectUri("http://127.0.0.1:8080/login/oauth2/code/messaging-client-oidc")
                 .redirectUri("http://127.0.0.1:8080/authorized")
+                .redirectUri("https://oidcdebugger.com/debug")
                 .scope(OidcScopes.OPENID)
                 .scope("read")
                 .scope("write")
                 .clientSettings(ClientSettings.builder().requireAuthorizationConsent(true).build())
                 .build();
-
         RegisteredClient registeredClient2 = RegisteredClient.withId(UUID.randomUUID().toString())
                 .clientId("huongdanjava")
-                .clientSecret("{noop}123456")
+                .clientSecret(passwordEncoder.encode("123456"))
                 .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_POST)
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
                 .redirectUri("https://oidcdebugger.com/debug")

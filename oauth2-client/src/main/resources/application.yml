@@ -22,13 +22,13 @@ spring:
             scope:
               - email
               - profile
-            redirect-uri: http://localhost:8080/login/oauth2/code/google
+            redirect-uri: http://localhost:8080/authorized
           messaging-client-oidc:
             provider: spring
             client-id: messaging-client
             client-secret: secret
             authorization-grant-type: authorization_code
-            redirect-uri: "http://127.0.0.1:8080/login/oauth2/code/{registrationId}"
+            redirect-uri: "http://127.0.0.1:8080/authorized"
             scope: openid
             client-name: messaging-client-oidc
           messaging-client-authorization-code:
@@ -51,7 +51,7 @@ spring:
             issuer-uri: http://localhost:9000
 
 messages:
-  base-uri: http://127.0.0.1:8090/articles
+  base-uri: http://127.0.0.1:8080/articles
 
 
 app:
