@@ -2,6 +2,7 @@ package com.puscas.authentication.config;
 
 import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationConfig;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
 import com.puscas.authentication.util.KeyReader;
@@ -92,7 +93,7 @@ public class AuthorizationServerConfig {
         return http.formLogin(Customizer.withDefaults()).build();
     }
 
-    @Bean
+/*    @Bean
     public ObjectMapper objectMapper() {
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new CoreJackson2Module());
@@ -101,7 +102,7 @@ public class AuthorizationServerConfig {
         List<Module> modules = SecurityJackson2Modules.getModules(loader);
         mapper.registerModules(modules);
         return mapper;
-    }
+    }*/
     @Bean
     public OAuth2AuthorizationService authorizationService(@Qualifier("dataSource") final DataSource dataSource, RegisteredClientRepository registeredClientRepository,
                                                            ObjectMapper objectMapper
