@@ -34,6 +34,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationManagerResolver;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtDecoders;
@@ -126,6 +127,7 @@ public final class JwtOpaqueIssuerAuthenticationManagerResolver implements Authe
 	 */
 	@Override
 	public AuthenticationManager resolve(HttpServletRequest request) {
+
 		return this.authenticationManager;
 	}
 
@@ -143,15 +145,38 @@ public final class JwtOpaqueIssuerAuthenticationManagerResolver implements Authe
 
 		@Override
 		public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-            OpaqueTokenIntrospector opaqueTokenIntrospector = new SpringOpaqueTokenIntrospector(
-                    "https://www.googleapis.com/oauth2/v1/tokeninfo",
-                    "246861652401-bhs3d3435gof3dfggfkl6qk1190qpj9q.apps.googleusercontent.com",
-                    "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"
 
-            );
 			Assert.isTrue(authentication instanceof BearerTokenAuthenticationToken,
 					"Authentication must be of type BearerTokenAuthenticationToken");
 			BearerTokenAuthenticationToken token = (BearerTokenAuthenticationToken) authentication;
+			String tokenString = token.getToken();
+			HttpHeaders headers = new HttpHeaders();
+			headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+			headers.add("PRIVATE-TOKEN", "xyz");
+
+			MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
+
+			map.add("access_token", tokenString);
+
+			HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<>(map, headers);
+		/*	if(tokenString.startsWith("fb#")){
+				map.replace("access_token", Collections.singletonList(tokenString.substring(3)));
+				Optional<FacebookAuthentication> facebookAuthentication= getFacebookAuthentication(entity);
+				if(facebookAuthentication.isPresent()){
+					return facebookAuthentication.get();
+				}else{
+					throw new IllegalAccessError("FB token not recognized");
+				}
+			}else if(tokenString.startsWith("go#")){
+				map.replace("access_token", Collections.singletonList(tokenString.substring(3)));
+				Optional<GoogleAuthentication> googleAuthentication = getGoogleAuthentication(entity);
+				if(googleAuthentication.isPresent()){
+					return googleAuthentication.get();
+				}else{
+					throw new IllegalAccessError("Google token not recognized");
+				}
+			}*/
+
 			try {
 				String issuer = this.issuerConverter.convert(token);
 				AuthenticationManager authenticationManager = this.issuerAuthenticationManagerResolver.resolve(issuer);
@@ -161,21 +186,18 @@ public final class JwtOpaqueIssuerAuthenticationManagerResolver implements Authe
 				return authenticationManager.authenticate(authentication);
 			}catch (Exception ex){
 				try {
-                    HttpHeaders headers = new HttpHeaders();
-                    headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-                    headers.add("PRIVATE-TOKEN", "xyz");
 
-                    MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
-                    map.add("access_token", token.getToken());
+					//might wanna verify somehow to not try all authentications 1 by 1.
+					//maybe pass something, maybe add something to bearer token, you know ?:D
 
-                    HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<>(map, headers);
-
-
-					Optional<GoogleAuthentication> body = getGoogleAuthentication(entity);
-					if(body.isPresent()){
-						return body.get();
+					Optional<GoogleAuthentication> googleAuthentication = getGoogleAuthentication(entity);
+					if(googleAuthentication.isPresent()){
+						return googleAuthentication.get();
 					}
-
+					Optional<FacebookAuthentication> facebookAuthentication= getFacebookAuthentication(entity);
+					if(facebookAuthentication.isPresent()){
+						return facebookAuthentication.get();
+					}
 				}catch (Exception e){
 					System.out.println(e);
                     throw e;
@@ -198,6 +220,23 @@ public final class JwtOpaqueIssuerAuthenticationManagerResolver implements Authe
 							&& verified_email) {
 						return Optional.of(new GoogleAuthentication(body));
 					}
+				}
+			}catch (Exception ex){
+				System.out.println(ex);
+			}
+			return Optional.empty();
+		}
+
+		private Optional<FacebookAuthentication> getFacebookAuthentication(HttpEntity<MultiValueMap<String, String>> entity) {
+			try {
+
+				ResponseEntity<Map> exchange = restTemplate.exchange("https://graph.facebook.com/me?fields=id,name,email,picture",
+						HttpMethod.POST, entity, Map.class);
+
+				if (exchange.getStatusCode() == HttpStatus.OK) {
+					Map<String, Object> body = exchange.getBody();
+					if(body.containsKey("name"))
+						return Optional.of(new FacebookAuthentication(body));
 				}
 			}catch (Exception ex){
 				System.out.println(ex);

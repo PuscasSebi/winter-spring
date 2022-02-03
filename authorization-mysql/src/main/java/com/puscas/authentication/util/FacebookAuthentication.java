@@ -9,12 +9,13 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
 
-public class GoogleAuthentication implements Authentication {
-
+public class FacebookAuthentication implements Authentication {
+    private final Map<String, Object> info;
     Principal principal;
 
-    public GoogleAuthentication(Map<String,Object> tokenInfo) {
+    public FacebookAuthentication(Map<String,Object> tokenInfo) {
         principal = new UsernamePasswordAuthenticationToken(tokenInfo.get("email"),"");
+        this.info = tokenInfo;
     }
 
     @Override
@@ -26,6 +27,7 @@ public class GoogleAuthentication implements Authentication {
     public Object getCredentials() {
         return null;
     }
+
 
     @Override
     public Object getDetails() {
@@ -50,9 +52,8 @@ public class GoogleAuthentication implements Authentication {
 
     }
 
-
     @Override
     public String getName() {
-        return null;
+        return String.valueOf(info.get("name"));
     }
 }
