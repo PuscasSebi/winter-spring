@@ -57,6 +57,7 @@ public class AuthorizationServerConfig {
                 .redirectUri("http://127.0.0.1:8080/login/oauth2/code/messaging-client-oidc")
                 .redirectUri("http://127.0.0.1:8080/authorized")
                 .redirectUri("https://oidcdebugger.com/debug")
+                .redirectUri("http://127.0.0.1:3005/api/auth/callback/spring")
                 .scope(OidcScopes.OPENID)
                 .scope("read")
                 .scope("write")
@@ -93,7 +94,7 @@ public class AuthorizationServerConfig {
         return http.formLogin(Customizer.withDefaults()).build();
     }
 
-/*    @Bean
+    @Bean
     public ObjectMapper objectMapper() {
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new CoreJackson2Module());
@@ -102,11 +103,10 @@ public class AuthorizationServerConfig {
         List<Module> modules = SecurityJackson2Modules.getModules(loader);
         mapper.registerModules(modules);
         return mapper;
-    }*/
+    }
     @Bean
     public OAuth2AuthorizationService authorizationService(@Qualifier("dataSource") final DataSource dataSource, RegisteredClientRepository registeredClientRepository,
-                                                           ObjectMapper objectMapper
-                                                           ) {
+                                                           ObjectMapper objectMapper) {
         JdbcOAuth2AuthorizationService service = new JdbcOAuth2AuthorizationService(new JdbcTemplate(dataSource), registeredClientRepository);
         JdbcOAuth2AuthorizationService.OAuth2AuthorizationRowMapper authorizationRowMapper = new JdbcOAuth2AuthorizationService.OAuth2AuthorizationRowMapper(registeredClientRepository);
         authorizationRowMapper.setLobHandler(new DefaultLobHandler());

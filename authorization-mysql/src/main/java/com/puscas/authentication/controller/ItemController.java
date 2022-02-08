@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.puscas.authentication.controller.model.ItemDTO;
 import io.micrometer.core.annotation.Timed;
 
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.HttpStatus;
@@ -16,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 @Validated
@@ -35,12 +35,14 @@ public class ItemController {
     @Autowired
     ObjectMapper objectMapper;
 
+    @SneakyThrows
     @GetMapping(value = "/find", produces= MediaType.APPLICATION_JSON_VALUE)
     @Timed(value = "item.service.get.all.timer")
     @ResponseBody()
-    public List<ItemDTO> getAllItems() {
+    public String getAllItems() {
 
-        return new ArrayList<>(list);
+        ObjectMapper objectMapper = new ObjectMapper();
+        return objectMapper.writeValueAsString(new ArrayList<>(list));
     }
 
     @GetMapping(value = "/find/by-id")
