@@ -29,3 +29,16 @@ spring:
     generate-ddl: true
   application:
     name: auth-server
+
+
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+    register-with-eureka: true
+    fetch-registry: true
+  instance:
+    preferIpAddress: true
+    lease-expiration-duration-in-seconds: 3
+    lease-renewal-interval-in-seconds: 4

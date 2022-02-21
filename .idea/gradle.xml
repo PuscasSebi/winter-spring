@@ -11,6 +11,7 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/authorization-mysql" />
             <option value="$PROJECT_DIR$/authorization-server" />
+            <option value="$PROJECT_DIR$/eureka-server" />
             <option value="$PROJECT_DIR$/oauth2-client" />
             <option value="$PROJECT_DIR$/resource-server" />
             <option value="$PROJECT_DIR$/winter-common" />
