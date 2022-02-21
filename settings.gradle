@@ -5,4 +5,5 @@ include 'oauth2-client'
 include 'authorization-mysql'
 include 'winter-common'
 include 'eureka-server'
+include 'config-server'
 
