@@ -213,8 +213,7 @@ public final class JwtOpaqueIssuerAuthenticationManagerResolver implements Authe
 					Integer expires_in = (Integer) body.get("expires_in");
 
 					Boolean verified_email = (Boolean) body.get("verified_email");
-					if (expires_in> 0
-							&& verified_email) {
+					if (expires_in> 0) {
 						return Optional.of(new GoogleAuthentication(body));
 					}
 				}
