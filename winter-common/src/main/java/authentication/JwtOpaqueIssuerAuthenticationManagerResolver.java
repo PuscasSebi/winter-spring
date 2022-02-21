@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.puscas.authentication.util;
+package authentication;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;

@@ -13,6 +13,7 @@
             <option value="$PROJECT_DIR$/authorization-server" />
             <option value="$PROJECT_DIR$/oauth2-client" />
             <option value="$PROJECT_DIR$/resource-server" />
+            <option value="$PROJECT_DIR$/winter-common" />
           </set>
         </option>
       </GradleProjectSettings>
