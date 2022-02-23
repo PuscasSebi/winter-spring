@@ -4,6 +4,7 @@ package com.puscas.authentication.config;
 import authentication.JwtOpaqueIssuerAuthenticationManagerResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -39,8 +40,7 @@ public class DefaultSecurityConfig  {
         http
                 .authorizeRequests(authorizeRequests ->
           authorizeRequests
-                  .antMatchers("/login*").permitAll()
-                  .anyRequest().authenticated()
+                  .antMatchers("/login*", "/registration*", "/error*").permitAll()
                 )
                 .formLogin()
                 .loginPage("/login")
@@ -49,7 +49,7 @@ public class DefaultSecurityConfig  {
                 .oauth2ResourceServer(oauth2 ->{ oauth2.authenticationManagerResolver(jwtIssuerAuthenticationManagerResolver);
                     //   oauth2.opaqueToken(opaqueTokenConfigurer -> opaqueTokenConfigurer.introspector(opaqueTokenIntrospector));
                         }
-                )
+                ).csrf().ignoringAntMatchers("/registration*")
 
         ;
         return http.build();

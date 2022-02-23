@@ -2,16 +2,19 @@ package com.puscas.authentication.service.interfacew;
 
 
 
+import com.puscas.authentication.controller.model.UserDto;
 import com.puscas.authentication.model.Role;
 import com.puscas.authentication.model.User;
 import com.puscas.authentication.repository.RoleDetailRepository;
 import com.puscas.authentication.repository.UserDetailRepository;
+import com.puscas.authentication.service.UserAlreadyExistException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -67,5 +70,28 @@ public class UserServiceImpl implements UserService {
         List<Role> all = roleRepo.findAll();
         log.info("found {} users", all.size());
         return all;
+    }
+
+    @Override
+    public User registerNewUserAccount(UserDto userDto) throws UserAlreadyExistException {
+        if (emailExist(userDto.getEmail())) {
+            throw new UserAlreadyExistException("There is an account with that email address: "
+                    + userDto.getEmail());
+        }
+        User user = new User();
+        user.setUsername(userDto.getEmail());
+        user.setEmail(userDto.getEmail());
+        user.setPassword(userDto.getPassword());
+        user.setEmail(userDto.getEmail());
+        user.setAccountNonExpired(true);
+        user.setCredentialsNonExpired(true);
+        user.setAccountNonLocked(true);
+        user.setEnabled(true);
+
+        return this.saveUser(user);// to get pasword encoded stuff..
+    }
+
+    private boolean emailExist(String email) {
+        return userRepo.findByUsername(email).isPresent();
     }
 }
