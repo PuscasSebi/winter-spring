@@ -1,6 +1,5 @@
 package com.puscas.authentication.controller;
 
-import com.fasterxml.uuid.impl.UUIDUtil;
 import com.puscas.authentication.controller.model.UserDto;
 import com.puscas.authentication.encryption.AesEncryptionUtil;
 import com.puscas.authentication.event.OnRegistrationCompleteEvent;
@@ -22,6 +21,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.util.Calendar;
 import java.util.Locale;
@@ -89,6 +91,7 @@ public class LoginController {
         }
         String propertyToEncryptEmail = environment.getProperty("custom.email.validationKey");
         String saltToEncrypt = environment.getProperty("custom.email.salt");
+        token = token.replace(" ","+");
         String decrypted = AesEncryptionUtil.decrypt(token, propertyToEncryptEmail, saltToEncrypt);
         Integer hoursToDecrypt = environment.getProperty("custom.email.validHours", Integer.class);
         String[] split = decrypted.split("###");
@@ -105,6 +108,6 @@ public class LoginController {
         }
 
         userService.enableUser(email);
-        return "redirect:/login.html?lang=" + request.getLocale().getLanguage();
+        return "redirect:/login?lang=" + request.getLocale().getLanguage();
     }
 }

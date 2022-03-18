@@ -13,6 +13,9 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 
 
@@ -36,11 +39,15 @@ public class RegistrationListener implements
 
     @Override
     public void onApplicationEvent(OnRegistrationCompleteEvent event) {
-        this.confirmRegistration(event);
+        try {
+            this.confirmRegistration(event);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
     }
 
 
-    private void confirmRegistration(OnRegistrationCompleteEvent event) {
+    private void confirmRegistration(OnRegistrationCompleteEvent event) throws UnsupportedEncodingException {
         String propertyToEncryptEmail = environment.getProperty("custom.email.validationKey");
         String saltToEncrypt = environment.getProperty("custom.email.salt");
         User user = event.getUser();
