@@ -17,6 +17,23 @@ spring:
     password: 93899389
     driver-class-name: com.mysql.jdbc.Driver
     initialization-mode: always
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: sebastian.voievod@gmail.com
+    password: wdymcsqbdccyhugd
+
+    properties:
+      mail:
+        smtp:
+          ssl:
+            trust: "*"
+          auth: true
+          starttls:
+            enable: true
+          connectiontimeout: 5000
+          timeout: 3000
+          writetimeout: 5000
   jpa:
     hibernate:
       ddl-auto: update
@@ -46,3 +63,9 @@ eureka:
 label:
   form:
     title: "REGISTER"
+
+custom:
+  email:
+    validationKey: "IDKWHATSHAPENING"
+    salt: "SALTSALTSALTSALT" #must be 16 bytes to encryption to work
+    validHours: 1

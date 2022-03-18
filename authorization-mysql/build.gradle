@@ -28,6 +28,8 @@ dependencies {
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: '2.6.2'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation group: 'com.fasterxml.uuid', name: 'java-uuid-generator', version: '4.0.1'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-mail', version: '2.6.4'
 
     implementation 'org.springframework.security:spring-security-oauth2-authorization-server:0.2.0'
 

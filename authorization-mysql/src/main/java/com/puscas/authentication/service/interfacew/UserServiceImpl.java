@@ -86,12 +86,20 @@ public class UserServiceImpl implements UserService {
         user.setAccountNonExpired(true);
         user.setCredentialsNonExpired(true);
         user.setAccountNonLocked(true);
-        user.setEnabled(true);
+        user.setEnabled(false);
 
         return this.saveUser(user);// to get pasword encoded stuff..
     }
 
     private boolean emailExist(String email) {
         return userRepo.findByUsername(email).isPresent();
+    }
+
+    public boolean enableUser(String email){
+        Optional<User> byEmail = userRepo.findByEmail(email);
+        byEmail.ifPresent(user ->{ user.setEnabled(true);
+            userRepo.save(user);
+        });
+        return byEmail.isPresent();
     }
 }
