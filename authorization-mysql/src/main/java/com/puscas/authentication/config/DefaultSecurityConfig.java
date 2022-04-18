@@ -89,6 +89,7 @@ public class DefaultSecurityConfig  {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/*/*").allowedOrigins("*").allowedHeaders("*").allowedMethods("*");
+                registry.addMapping("/*").allowedOrigins("*").allowedHeaders("*").allowedMethods("*");
             }
         };
     }
