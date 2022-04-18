@@ -31,14 +31,14 @@ public class ProductController {
         add(new ProductDto(3, "Slim shirts", "slim-shirt", "shirts", "/images/shirt3.jpg",
                 "70", "Adidas", "4.5", "10", "20", "A popular shirt"));
 
-        add(new ProductDto(4, "Golf pants", "golf-pants", "pants", "/images/pants.jpg",
+        add(new ProductDto(4, "Golf pants", "golf-pants", "pants", "/images/pants1.jpg",
                 "90", "Oliver", "4.5", "10", "20", "A popular shirt"));
 
 
-        add(new ProductDto(5, "free shirt", "free-shirt", "shirts", "/images/pants1.jpg",
+        add(new ProductDto(5, "Classic pants", "classic-pants", "pants", "/images/pants2.jpg",
                 "95", "Zara", "4.5", "10", "20", "Smart looking pants"));
 
-        add(new ProductDto(6, "Fit pants", "fit-pants", "pants", "/images/pants2.jpg",
+        add(new ProductDto(6, "Fit pants", "fit-pants", "pants", "/images/pants3.jpg",
                 "75", "Casely", "4.5", "10", "20", "A popular shirt"));
     }};
 
