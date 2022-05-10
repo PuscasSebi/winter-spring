@@ -2,16 +2,15 @@ package com.puscas.authentication.config;
 
 import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationConfig;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
+import com.puscas.authentication.controller.model.UserInfo;
 import com.puscas.authentication.util.KeyReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
+import org.springframework.boot.jackson.JsonComponentModule;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -99,6 +98,8 @@ public class AuthorizationServerConfig {
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new CoreJackson2Module());
         mapper.registerModule(new OAuth2AuthorizationServerJackson2Module());
+        mapper.registerModule(new JsonComponentModule());
+        mapper.registerSubtypes(UserInfo.class);
         ClassLoader loader = getClass().getClassLoader();
         List<Module> modules = SecurityJackson2Modules.getModules(loader);
         mapper.registerModules(modules);

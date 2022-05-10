@@ -3,6 +3,9 @@ package com.puscas.authentication.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.puscas.authentication.controller.model.ProductDto;
+import com.puscas.authentication.controller.model.SalesData;
+import com.puscas.authentication.controller.model.Summary;
+import com.puscas.authentication.controller.model.UserInfo;
 import io.micrometer.core.annotation.Timed;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +28,7 @@ public class ProductController {
 
 
     public static final String FILE_TO_WRITE = "newFIle.out";
-    List<ProductDto> list = new ArrayList<ProductDto>() {{
+    List<ProductDto> productDtoList = new ArrayList<ProductDto>() {{
         add(new ProductDto(1, "free shirt", "free-shirt", "shirts", "/images/shirt1.jpg",
                 "70", "Nike", "4.5", "10", "20", "A popular shirt"));
 
@@ -59,16 +62,16 @@ public class ProductController {
     public String getAllItems() {
 
         ObjectMapper objectMapper = new ObjectMapper();
-        return objectMapper.writeValueAsString(new ArrayList<>(list));
+        return objectMapper.writeValueAsString(new ArrayList<>(productDtoList));
     }
 
     @GetMapping(value = "/find/by-id")
     public ResponseEntity<String> getItemById(@RequestParam Integer id, @RequestHeader MultiValueMap<String, String> headers) throws JsonProcessingException {
 
 
-        ProductDto item = list.stream().filter(i -> Objects.equals(i.getId(), id)).findAny().orElse(null);
+        ProductDto item = productDtoList.stream().filter(i -> Objects.equals(i.getId(), id)).findAny().orElse(null);
         ObjectMapper objectMapper = new ObjectMapper();
-        return new ResponseEntity<String>(objectMapper.writeValueAsString(item), HttpStatus.OK);
+        return new ResponseEntity<>(objectMapper.writeValueAsString(item), HttpStatus.OK);
     }
 
     @PostMapping(value = "/placeOrder")
@@ -89,9 +92,30 @@ public class ProductController {
         return objectMapper.writeValueAsString(new ArrayList<>(listOrders));
     }
 
-    private void serializeOrders() {
+    @GetMapping(value = "/getSummary")
+    public String getSummary() throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        return objectMapper.writeValueAsString(Summary.builder()
+                        .productsCount("4")
+                        .ordersCount("2")
+                        .ordersPrice("5342")
+                        .usersCount("3")
+                        .salesData(new ArrayList<SalesData>(){{
+                            add(SalesData.builder()._id("noiembrie in plm")
+                                    .totalSales("6000")
+                                    .build());
+                            add(SalesData.builder()._id("decembrie fra")
+                                    .totalSales("3000")
+                                    .build());
+                        }})
+                .build());
+    }
 
 
+    @PutMapping(value = "/putUserInfo", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public String getOrders(@RequestBody UserInfo userInfo) throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        return objectMapper.writeValueAsString(userInfo);
     }
 
     @GetMapping(value = "/orders")
