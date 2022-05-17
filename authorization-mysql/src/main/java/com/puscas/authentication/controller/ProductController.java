@@ -15,7 +15,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.thymeleaf.util.StringUtils;
 
+import javax.websocket.server.PathParam;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +29,7 @@ import java.util.Objects;
 public class ProductController {
 
 
-    public static final String FILE_TO_WRITE = "newFIle.out";
+    public static final String FILE_TO_WRITE = "efwfew.out";
     List<ProductDto> productDtoList = new ArrayList<ProductDto>() {{
         add(new ProductDto(1, "free shirt", "free-shirt", "shirts", "/images/shirt1.jpg",
                 "70", "Nike", "4.5", "10", "20", "A popular shirt"));
@@ -92,22 +94,59 @@ public class ProductController {
         return objectMapper.writeValueAsString(new ArrayList<>(listOrders));
     }
 
+    @GetMapping(value = "/getOrderById/{id}")
+    public String getOrdersById(@PathParam("id") String id, @RequestBody String map) throws JsonProcessingException, IllegalAccessException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        for (String order : listOrders) {
+            if (order.contains(id))
+                return objectMapper.writeValueAsString(order);
+        }
+
+        throw new IllegalAccessException("not found");
+
+
+    }
+
+    @PostMapping(value = "/postDelivery/{id}")
+    public String postDelivery(@PathVariable("id") String id,
+                               @RequestBody String map) throws JsonProcessingException, IllegalAccessException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        for (int i=0; i< listOrders.size(); i++){
+            String order = listOrders.get(i);
+            if(order.contains(id)){
+                listOrders.remove(i);
+                listOrders.add(map);
+                break;
+            }
+        }
+
+        for (String order : listOrders) {
+            if (order.contains(id))
+                return objectMapper.writeValueAsString(order);
+        }
+
+        throw new IllegalAccessException("not found");
+
+
+    }
+
+
     @GetMapping(value = "/getSummary")
     public String getSummary() throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.writeValueAsString(Summary.builder()
-                        .productsCount("4")
-                        .ordersCount("2")
-                        .ordersPrice("5342")
-                        .usersCount("3")
-                        .salesData(new ArrayList<SalesData>(){{
-                            add(SalesData.builder()._id("noiembrie in plm")
-                                    .totalSales("6000")
-                                    .build());
-                            add(SalesData.builder()._id("decembrie fra")
-                                    .totalSales("3000")
-                                    .build());
-                        }})
+                .productsCount("4")
+                .ordersCount("2")
+                .ordersPrice("5342")
+                .usersCount("3")
+                .salesData(new ArrayList<SalesData>() {{
+                    add(SalesData.builder()._id("noiembrie in plm")
+                            .totalSales("6000")
+                            .build());
+                    add(SalesData.builder()._id("decembrie fra")
+                            .totalSales("3000")
+                            .build());
+                }})
                 .build());
     }
 
@@ -119,8 +158,19 @@ public class ProductController {
     }
 
     @GetMapping(value = "/orders")
-    public ResponseEntity<String> getOrders(@RequestParam String id) {
-        return new ResponseEntity<>(currentOrder, HttpStatus.OK);
+    public String getOrders(@RequestParam String id) throws JsonProcessingException {
+
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        for (String order : listOrders) {
+            if (order.contains(id))
+                return order;
+        }
+        if (StringUtils.isEmpty(currentOrder)) {
+            return listOrders.get(0);
+        }
+
+        return currentOrder;
     }
 
 
@@ -149,12 +199,12 @@ public class ProductController {
         ObjectInputStream ois = null;
         try {
             ois = new ObjectInputStream(in);
-        } catch (IOException| NullPointerException e) {
+        } catch (IOException | NullPointerException e) {
             e.printStackTrace();
         }
         try {
             return (List<String>) ois.readObject();
-        } catch (IOException| NullPointerException e) {
+        } catch (IOException | NullPointerException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
