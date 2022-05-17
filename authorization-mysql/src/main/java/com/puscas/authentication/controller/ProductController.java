@@ -22,6 +22,8 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.stream.Collectors;
 
 @Validated
 @RestController
@@ -94,6 +96,33 @@ public class ProductController {
         return objectMapper.writeValueAsString(new ArrayList<>(listOrders));
     }
 
+    @DeleteMapping(value = "/products/{id}")
+    public String deleteProduct(@PathVariable("id") Integer id) throws JsonProcessingException, IllegalAccessException {
+        productDtoList = productDtoList.stream().filter(productDto -> productDto.getId() != id).collect(Collectors.toList());
+        return "true";
+    }
+
+    @PostMapping(value = "/products")
+    public String addProduct(@RequestBody ProductDto productDto) {
+        productDtoList.add(productDto);
+        return "true";
+    }
+
+    @PutMapping(value = "/products")
+    public ProductDto update(@RequestBody ProductDto productDto) {
+        ProductDto toReturn = productDto;
+        AtomicBoolean replaced = new AtomicBoolean(false);
+        productDtoList = productDtoList.stream().map(p -> {
+            if (Objects.equals(productDto.getId(), p.getId())) {
+                replaced.set(true);
+                return productDto;
+            } else {
+                return p;
+            }
+        }).collect(Collectors.toList());
+        return replaced.get() ? toReturn : null;
+    }
+
     @GetMapping(value = "/getOrderById/{id}")
     public String getOrdersById(@PathParam("id") String id, @RequestBody String map) throws JsonProcessingException, IllegalAccessException {
         ObjectMapper objectMapper = new ObjectMapper();
@@ -111,9 +140,9 @@ public class ProductController {
     public String postDelivery(@PathVariable("id") String id,
                                @RequestBody String map) throws JsonProcessingException, IllegalAccessException {
         ObjectMapper objectMapper = new ObjectMapper();
-        for (int i=0; i< listOrders.size(); i++){
+        for (int i = 0; i < listOrders.size(); i++) {
             String order = listOrders.get(i);
-            if(order.contains(id)){
+            if (order.contains(id)) {
                 listOrders.remove(i);
                 listOrders.add(map);
                 break;
