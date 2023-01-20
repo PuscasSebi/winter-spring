@@ -105,10 +105,16 @@ public class AuthorizationServerConfig {
         mapper.registerModules(modules);
         return mapper;
     }
+
     @Bean
-    public OAuth2AuthorizationService authorizationService(@Qualifier("dataSource") final DataSource dataSource, RegisteredClientRepository registeredClientRepository,
+    public JdbcTemplate jdbcTemplate(@Qualifier("dataSource") final DataSource dataSource){
+        return new JdbcTemplate(dataSource);
+    }
+
+    @Bean
+    public OAuth2AuthorizationService authorizationService(JdbcTemplate dataSource, RegisteredClientRepository registeredClientRepository,
                                                            ObjectMapper objectMapper) {
-        JdbcOAuth2AuthorizationService service = new JdbcOAuth2AuthorizationService(new JdbcTemplate(dataSource), registeredClientRepository);
+        JdbcOAuth2AuthorizationService service = new JdbcOAuth2AuthorizationService(dataSource, registeredClientRepository);
         JdbcOAuth2AuthorizationService.OAuth2AuthorizationRowMapper authorizationRowMapper = new JdbcOAuth2AuthorizationService.OAuth2AuthorizationRowMapper(registeredClientRepository);
         authorizationRowMapper.setLobHandler(new DefaultLobHandler());
         authorizationRowMapper.setObjectMapper(objectMapper);
@@ -127,9 +133,11 @@ public class AuthorizationServerConfig {
     }*/
 
     @Bean
-    public OAuth2AuthorizationConsentService authorizationConsentService(@Qualifier("dataSource") final DataSource dataSource, RegisteredClientRepository registeredClientRepository) {
-        return new JdbcOAuth2AuthorizationConsentService(new JdbcTemplate(dataSource), registeredClientRepository);
+    public OAuth2AuthorizationConsentService authorizationConsentService(JdbcTemplate dataSource, RegisteredClientRepository registeredClientRepository) {
+        return new JdbcOAuth2AuthorizationConsentService(dataSource, registeredClientRepository);
     }
+
+
 
     @Bean
     public JWKSource<SecurityContext> jwkSource() throws Exception {

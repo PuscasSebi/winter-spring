@@ -23,4 +23,6 @@ public class ProductDto {
     String numReviews;
     String countInStock;
     String description;
+    boolean isFeatured;
+    String featuredImage;
 }

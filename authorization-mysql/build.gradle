@@ -34,13 +34,20 @@ dependencies {
     implementation 'org.springframework.security:spring-security-oauth2-authorization-server:0.2.0'
 
     implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.28'
+    implementation 'junit:junit:4.13.1'
 
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    // https://mvnrepository.com/artifact/com.h2database/h2
+    testImplementation group: 'com.h2database', name: 'h2', version: '2.1.214'
+    implementation group: 'org.junit', name: 'junit5-engine', version: '5.0.0-ALPHA'
     testImplementation 'org.springframework.security:spring-security-test'
     implementation group: 'org.hibernate', name: 'hibernate-validator', version: '7.0.2.Final'
+    // https://mvnrepository.com/artifact/org.mockito/mockito-core
+    implementation group: 'org.mockito', name: 'mockito-core', version: '5.0.0'
+
 }
 
 test {

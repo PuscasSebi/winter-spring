@@ -34,21 +34,21 @@ public class ProductController {
     public static final String FILE_TO_WRITE = "efwfew.out";
     List<ProductDto> productDtoList = new ArrayList<ProductDto>() {{
         add(new ProductDto(1, "free shirt", "free-shirt", "shirts", "/images/shirt1.jpg",
-                "70", "Nike", "4.5", "10", "20", "A popular shirt"));
+                "70", "Nike", "4.5", "10", "20", "A popular shirt", true, "/images/banner1.jpg"));
 
         add(new ProductDto(2, "fit shirt", "fit-shirt", "shirts", "/images/shirt2.jpg",
-                "70", "Nike", "4.5", "10", "20", "A shirt"));
+                "70", "Nike", "4.5", "10", "20", "A shirt", true, "/images/banner2.jpg"));
         add(new ProductDto(3, "Slim shirts", "slim-shirt", "shirts", "/images/shirt3.jpg",
-                "70", "Adidas", "4.5", "10", "20", "A popular shirt"));
+                "70", "Adidas", "4.5", "10", "20", "A popular shirt", false, null));
 
         add(new ProductDto(4, "Golf pants", "golf-pants", "pants", "/images/pants1.jpg",
-                "90", "Oliver", "4.5", "10", "20", "A popular shirt"));
+                "90", "Oliver", "4.5", "10", "20", "A popular shirt", false, null));
 
         add(new ProductDto(5, "Classic pants", "classic-pants", "pants", "/images/pants2.jpg",
-                "95", "Zara", "4.5", "10", "20", "Smart looking pants"));
+                "95", "Zara", "4.5", "10", "20", "Smart looking pants", false, null));
 
         add(new ProductDto(6, "Fit pants", "fit-pants", "pants", "/images/pants3.jpg",
-                "75", "Casely", "4.5", "10", "20", "A popular shirt"));
+                "75", "Casely", "4.5", "10", "20", "A popular shirt", false, null));
     }};
 
 
@@ -77,6 +77,21 @@ public class ProductController {
         ObjectMapper objectMapper = new ObjectMapper();
         return new ResponseEntity<>(objectMapper.writeValueAsString(item), HttpStatus.OK);
     }
+
+    @GetMapping(value = "/find/byCategory")
+    public ResponseEntity<String> getByCategory(@RequestParam String category,
+                                                @RequestParam String query,
+                                                @RequestHeader MultiValueMap<String, String> headers) throws JsonProcessingException {
+
+        List<ProductDto> collect = productDtoList.stream().filter(i -> i.getCategory().contains(category)).collect(Collectors.toList());
+
+        if (!StringUtils.isEmpty(query)){
+            collect = productDtoList.stream().filter(i -> i.getName().contains(query)).collect(Collectors.toList());
+        }
+        ObjectMapper objectMapper = new ObjectMapper();
+        return new ResponseEntity<>(objectMapper.writeValueAsString(collect), HttpStatus.OK);
+    }
+
 
     @PostMapping(value = "/placeOrder")
     public ResponseEntity<String> placeOrder(@RequestBody String map) {
