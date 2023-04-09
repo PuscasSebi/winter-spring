@@ -3,6 +3,7 @@ package com.puscas.authentication.repository;
 import com.puscas.authentication.model.Place;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
@@ -18,4 +19,6 @@ public interface PlaceRepositoryImpl extends PagingAndSortingRepository<Place, I
     List<Place> findByCreator(String creator, Sort sort);
 
     Page<Place> findByCreator(String creator, Pageable pageable);
+
+    Slice<Place> findByCreatorSlice(String creator, Pageable pageable);
 }

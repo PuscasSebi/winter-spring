@@ -8,7 +8,7 @@ import com.puscas.authentication.model.Role;
 import com.puscas.authentication.model.User;
 import com.puscas.authentication.service.UserAlreadyExistException;
 
-import javax.jws.soap.SOAPBinding;
+
 import java.util.List;
 
 public interface UserService {

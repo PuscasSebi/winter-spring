@@ -28,8 +28,8 @@ public class PlacesDetailsRepositoryTest {
     final String placeImage = "image/url";
     final String name = "Aname";
     final String metadata = "[\"isPrimi\"]";
-    Place p = new Place(1, placeCreator, name, description, placeImage, metadata);
-    Place p2 = new Place(2, placeCreator, "BSortAfterName", "cSortBeforeDescription"
+    public Place p = new Place(1, placeCreator, name, description, placeImage, metadata);
+    public Place p2 = new Place(2, placeCreator, "BSortAfterName", "cSortBeforeDescription"
             , placeImage, metadata);
 
     @Autowired
