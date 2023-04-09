@@ -17,15 +17,18 @@ public class Place {
     private Integer id;
 
     @Column(name = "creator")
-    public String placeCreator;
+    public String creator;
 
     @Column(name = "name")
     public String name;
 
     @Column(name = "description")
-    public String descriptionName;
+    public String description;
 
     @Column(name = "image")
     public String placeImage;
+
+    @Column(name= "metadata")
+    public String metadata;
 
 }
