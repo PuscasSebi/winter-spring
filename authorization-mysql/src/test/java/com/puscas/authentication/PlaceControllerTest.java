@@ -12,13 +12,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.*;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MockMvc;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.ResultActions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,13 +68,11 @@ public class PlaceControllerTest {
 
         Assertions.assertEquals(collect.get(1).getDirection(), Sort.Direction.ASC);
         Assertions.assertEquals(collect.get(1).getProperty(), "name");
-
     }
-
 
     @Test
     void evaluatesSliceParameter() throws Exception {
-        when(placeRepository.findByCreatorSlice(anyString(), any(Pageable.class))).thenReturn(pageDomain);
+        when(placeRepository.findByCreator(any(Pageable.class), anyString())).thenReturn(pageDomain);
         final MvcResult mvcResult = mockMvc.perform(get("/byCreator/slice")
                         .param("page", "5")
                         .param("size", "10")
@@ -96,7 +88,7 @@ public class PlaceControllerTest {
 
 
         ArgumentCaptor<Pageable> pageableCaptor = ArgumentCaptor.forClass(Pageable.class);
-        verify(placeRepository).findByCreatorSlice(eq(creator), pageableCaptor.capture());
+        verify(placeRepository).findByCreator(pageableCaptor.capture(), eq(creator));
         PageRequest pageable = (PageRequest) pageableCaptor.getValue();
         Assertions.assertEquals(pageable.getPageNumber(), 5);
         Assertions.assertEquals(pageable.getPageSize(), 10);

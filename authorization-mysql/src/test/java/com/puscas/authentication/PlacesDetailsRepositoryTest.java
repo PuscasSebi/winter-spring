@@ -1,5 +1,6 @@
 package com.puscas.authentication;
 
+import com.puscas.authentication.config.TestConfiguration;
 import com.puscas.authentication.model.Place;
 import com.puscas.authentication.repository.PlaceRepositoryImpl;
 import org.junit.gen5.api.Assertions;
@@ -13,6 +14,9 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.support.AnnotationConfigContextLoader;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,10 +24,11 @@ import java.util.Optional;
 
 @DataJpaTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+
 public class PlacesDetailsRepositoryTest {
 
 
-    final String placeCreator = "Puscasa";
+    final public static String placeCreator = "Puscasa";
     final String description = "description";
     final String placeImage = "image/url";
     final String name = "Aname";

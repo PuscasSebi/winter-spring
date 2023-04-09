@@ -6,10 +6,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
-
+@Repository
 public interface PlaceRepositoryImpl extends PagingAndSortingRepository<Place, Integer> {
     Optional<Place> findByName(String name);
     Optional<Place> findByDescription(String description);
@@ -20,5 +21,5 @@ public interface PlaceRepositoryImpl extends PagingAndSortingRepository<Place, I
 
     Page<Place> findByCreator(String creator, Pageable pageable);
 
-    Slice<Place> findByCreatorSlice(String creator, Pageable pageable);
+    Slice<Place> findByCreator( Pageable pageable, String creator);
 }

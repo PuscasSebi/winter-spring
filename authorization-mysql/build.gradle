@@ -48,6 +48,8 @@ dependencies {
     implementation group: 'org.hibernate', name: 'hibernate-validator', version: '7.0.2.Final'
     // https://mvnrepository.com/artifact/org.mockito/mockito-core
     implementation group: 'org.mockito', name: 'mockito-core'
+    implementation group: 'org.springframework.cloud', name: 'spring-cloud-openfeign-core', version: '3.0.5'
+
 
 }
 

@@ -42,7 +42,7 @@ public class PlaceController {
                                              @SortDefault(sort = "id", direction = Sort.Direction.ASC)
                                      })
                                      Pageable pageable){
-        return placeRepository.findByCreatorSlice(creator, pageable);
+        return placeRepository.findByCreator( pageable,creator);
     }
 
 }
