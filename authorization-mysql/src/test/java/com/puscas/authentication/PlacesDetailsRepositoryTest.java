@@ -93,9 +93,9 @@ public class PlacesDetailsRepositoryTest {
     }
 
 
-    private void assertInsertedDataFound(Optional<Place> byName) {
-        Assertions.assertTrue(byName.isPresent());
-        final Place place = byName.get();
+    private void assertInsertedDataFound(Optional<Place> optionalPlace) {
+        Assertions.assertTrue(optionalPlace.isPresent());
+        final Place place = optionalPlace.get();
         Assertions.assertNotNull(place);
         Assertions.assertEquals(place.getCreator(),placeCreator);
         Assertions.assertEquals(place.getDescription(),description);
